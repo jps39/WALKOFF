@@ -109,7 +109,7 @@ def display_flags():
 
 
 # Returns System-Level Interface Pages
-@app.route('/interface/<string:name>', methods=['GET'])
+@app.route('/interface/<string:name>', methods=['POST'])
 @auth_token_required
 @roles_accepted(*running_context.user_roles['/interface'])
 def sys_pages(name):
@@ -119,20 +119,6 @@ def sys_pages(name):
         return render_template("pages/" + name + "/index.html", **args)
     else:
         return {"status": "Could Not Log In."}
-
-
-#TODO: DELETE
-@app.route('/interface/<string:name>/display', methods=['POST'])
-@auth_token_required
-@roles_accepted(*running_context.user_roles['/interface'])
-def system_pages(name):
-    if current_user.is_authenticated and name:
-        args = getattr(interface, name)()
-        combine_dicts(args, {"authKey": current_user.get_auth_token()})
-        return render_template("pages/" + name + "/index.html", **args)
-    else:
-        return {"status": "Could Not Log In."}
-
 
 # Returns the API key for the user
 @app.route('/key', methods=['GET', 'POST'])
