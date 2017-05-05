@@ -58,9 +58,10 @@ if __name__ == "__main__":
         host = config.host
         if ssl_context:
             server = WSGIServer((host, port), application=flaskserver.app, ssl_context=ssl_context)
-
+            setup_logger()
+            logging.info('Listening on host https://' + host + ':' + str(port))
         else:
             server = WSGIServer((host, port), application=flaskserver.app)
-        setup_logger()
-        logging.info('Listening on host https://' + host + ':' + str(port))
+            setup_logger()
+            logging.info('Listening on host http://' + host + ':' + str(port))
         server.serve_forever()
