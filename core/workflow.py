@@ -1,6 +1,7 @@
 from xml.etree import cElementTree
 from os.path import join, isfile
 import json
+import logging
 from core import arguments
 from core.config import paths
 from core.instance import Instance
@@ -10,9 +11,22 @@ from core.executionelement import ExecutionElement
 from core.step import Step
 from core.helpers import construct_workflow_name_key, extract_workflow_name
 
+logger = logging.getLogger(__name__)
+
 
 class Workflow(ExecutionElement):
     def __init__(self, name='', xml=None, children=None, parent_name='', playbook_name=''):
+        """Initializes a Workflow object. A Workflow falls under a Playbook, and has many associated Steps
+            within it that get executed.
+            
+        Args:
+            name (str, optional): The name of the Workflow object. Defaults to an empty string.
+            xml (cElementTree, optional): The XML element tree object. Defaults to None.
+            children (dict, optional): A dict of children. Defaults to None.
+            parent_name (str, optional): The name of the parent for ancestry purposes. Defaults to an empty string.
+            playbook_name (str, optional): The name of the playbook under which the workflow is located. Defaults
+                to an empty string.
+        """
         ExecutionElement.__init__(self, name=name, parent_name=parent_name, ancestry=[parent_name])
         self.playbook_name = playbook_name
         self.steps = {}
@@ -27,12 +41,25 @@ class Workflow(ExecutionElement):
         self.breakpoint_steps = []
 
     def reconstruct_ancestry(self, parent_ancestry):
+        """Reconstructs the ancestry for a Workflow object. This is needed in case a workflow and/or playbook is renamed.
+        
+        Args:
+            parent_ancestry(list[str]): The parent ancestry list.
+        """
         self._construct_ancestry(parent_ancestry)
         for key in self.steps:
             self.steps[key].reconstruct_ancestry(self.ancestry)
 
     @staticmethod
     def get_workflow(workflow_name):
+        """Retrieve a workflow from the name of the workflow.
+        
+        Args:
+            workflow_name: The name of the Workflow objet to be retrieved.
+            
+        Returns:
+            The Workflow object from the provided workflow name.
+        """
         if isfile(join(paths.templates_path, workflow_name)):
             tree = cElementTree.ElementTree(file=join(paths.templates_path, workflow_name))
             for workflow in tree.iter(tag='workflow'):
@@ -51,6 +78,20 @@ class Workflow(ExecutionElement):
         self.children[name] = workflow
 
     def create_step(self, name='', action='', app='', device='', arg_input=None, next_steps=None, errors=None, risk=0):
+        """Creates a new Step object and adds it to the Workflow's list of Steps.
+        
+        Args:
+            name (str, optional): The name of the Step object. Defaults to an empty string.
+            action (str, optional): The name of the action associated with a Step. Defaults to an empty string.
+            app (str, optional): The name of the app associated with the Step. Defaults to an empty string.
+            device (str, optional): The name of the device associated with the app associated with the Step. Defaults
+                to an empty string.
+            arg_input (dict, optional): A dictionary of Argument objects that are input to the step execution. Defaults
+                to None.
+            next_steps (list[NextStep], optional): A list of NextStep objects for the Step object. Defaults to None.
+            errors (list[NextStep], optional): A list of NextStep error objects for the Step object. Defaults to None.
+            risk (int, optional): The risk associated with the Step. Defaults to 0.
+        """
         arg_input = arg_input if arg_input is not None else {}
         next_steps = next_steps if next_steps is not None else []
         errors = errors if errors is not None else []
@@ -62,16 +103,32 @@ class Workflow(ExecutionElement):
                                 next_steps=next_steps, errors=errors, ancestry=ancestry, parent_name=self.name,
                                 risk=risk)
         self.total_risk += risk
+        logger.info('Step added to workflow {0}. Step: {1}'.format(self.ancestry, self.steps[name].as_json()))
 
     def remove_step(self, name=''):
+        """Removes a Step object from the Workflow's list of Steps given the Step name.
+        
+        Args:
+            name (str): The name of the Step object to be removed.
+            
+        Returns:
+            True on success, False otherwise.
+        """
         if name in self.steps:
             new_dict = dict(self.steps)
             del new_dict[name]
             self.steps = new_dict
+            logger.debug('Removed step {0} from workflow {1}'.format(name, self.ancestry))
             return True
+        logger.warning('Could not remove step {0} from workflow {1}. Step does nto exist'.format(name, self.ancestry))
         return False
 
     def to_xml(self, *args):
+        """Converts the Workflow object to XML format.
+        
+        Returns:
+            The XML representation of the Workflow object.
+        """
         workflow_element = cElementTree.Element('workflow')
         workflow_element.set('name', extract_workflow_name(self.name))
 
@@ -91,23 +148,41 @@ class Workflow(ExecutionElement):
         return current
 
     def pause(self):
+        """Pauses the execution of the Workflow. The Workflow will pause execution before starting the next Step.
+        """
         if self.executor is not None:
+            logger.info('Pausing workflow {0}'.format(self.ancestry))
             self.is_paused = True
 
     def resume(self):
+        """Resumes a Workflow that has previously been paused.
+        """
         try:
+            logger.info('Attempting to resume workflow {0}'.format(self.ancestry))
             self.is_paused = False
             self.executor.send(None)
-        except (StopIteration, AttributeError):
+        except (StopIteration, AttributeError) as e:
+            logger.warning('Cannot resume workflow {0}. Reason: {1}'.format(self.ancestry, e))
             pass
 
     def resume_breakpoint_step(self):
+        """Resumes a Workflow that has hit a breakpoint at a Step. This is used for debugging purposes.
+        """
         try:
+            logger.debug('Attempting to resume workflow {0} from breakpoint'.format(self.ancestry))
             self.executor.send(None)
-        except (StopIteration, AttributeError):
+        except (StopIteration, AttributeError) as e:
+            logger.warning('Cannot resume workflow {0} from breakpoint. Reason: {1}'.format(self.ancestry, e))
             pass
 
     def execute(self, start='start', input=""):
+        """Executes a Workflow by executing all Steps in the Workflow list of Step objects.
+        
+        Args:
+            start (str, optional): The name of the first Step. Defaults to "start".
+            input (str, optional): Input into the first Step. Defaults to an empty string.
+        """
+        logger.info('Executing workflow {0}'.format(self.ancestry))
         callbacks.WorkflowExecutionStart.send(self)
         self.executor = self.__execute(start, input)
         next(self.executor)
@@ -118,6 +193,7 @@ class Workflow(ExecutionElement):
         steps = self.__steps(start=start)
         first = True
         for step in steps:
+            logger.debug('Executing step {0} of workflow {1}'.format(step, self.ancestry))
             while self.is_paused:
                 _ = yield
             if step:
@@ -127,10 +203,12 @@ class Workflow(ExecutionElement):
                 if step.device not in instances:
                     instances[step.device] = Instance.create(step.app, step.device)
                     callbacks.AppInstanceCreated.send(self)
+                    logger.debug('Created new app instance: App {0}, device {1}'.format(step.app, step.device))
                 step.render_step(steps=total_steps)
 
                 if first:
                     if input:
+                        logger.debug('Swapping input to first step of workflow {0}'.format(self.ancestry))
                         step.input = input
                     first = False
 
@@ -150,7 +228,7 @@ class Workflow(ExecutionElement):
 
             # Check for call to child workflow
             if next_step and next_step[0] == '@':
-                child_step_generator, child_next_step, child_name = self.get_child_step_generator(next_step)
+                child_step_generator, child_next_step, child_name = self.__get_child_step_generator(next_step)
                 if child_step_generator:
                     for child_step in child_step_generator:
                         if child_step:
@@ -181,31 +259,40 @@ class Workflow(ExecutionElement):
             error_flag = True
             step.output = str(e)
             self.accumulated_risk += float(step.risk) / self.total_risk
+            logger.debug('Step {0} of workflow {1} executed with error {2}'.format(step, self.ancestry, e))
         finally:
             return error_flag
 
-    def get_child_step_generator(self, tiered_step_str):
+    def __get_child_step_generator(self, tiered_step_str):
         params = tiered_step_str.split(':')
         if len(params) == 3:
             child_name, child_start, child_next = params[0].lstrip('@'), params[1], params[2]
             child_name = construct_workflow_name_key(self.playbook_name, child_name)
             if (child_name in self.options.children
-                    and type(self.options.children[child_name]).__name__ == 'Workflow'):
+                and type(self.options.children[child_name]).__name__ == 'Workflow'):
+                logger.debug('Executing child workflow {0} of workflow {1}'.format(child_name, self.ancestry))
                 callbacks.WorkflowExecutionStart.send(self.options.children[child_name])
                 child_step_generator = self.options.children[child_name].__steps(start=child_start)
                 return child_step_generator, child_next, child_name
         return None, None
 
     def __shutdown(self, instances):
-        try:
-            # Upon finishing shuts down instances
-            for instance in instances:
+        # Upon finishing shuts down instances
+        for instance in instances:
+            try:
+                logger.debug('Shutting down app instance: Device: {0}'.format(instance))
                 instances[instance].shutdown()
-            callbacks.WorkflowShutdown.send(self)
-        except:
-            pass
+            except Exception as e:
+                logger.error('Error caught while shutting down app instance. '
+                             'Device: {0}. Error {1}'.format(instance, e))
+        callbacks.WorkflowShutdown.send(self)
 
     def get_cytoscape_data(self):
+        """Gets the cytoscape data for the Workflow object.
+        
+        Returns:
+            The cytoscape data for the Workflow.
+        """
         output = []
         for step in self.steps:
             node_id = self.steps[step].name if self.steps[step].name is not None else 'None'
@@ -224,6 +311,11 @@ class Workflow(ExecutionElement):
         return output
 
     def from_cytoscape_data(self, data):
+        """Reconstruct a Workflow object based on cytoscape data.
+        
+        Args:
+            data (JSON dict): The cytoscape data to be parsed and reconstructed into a Workflow object.
+        """
         self.steps = {}
         for node in data:
             if 'source' not in node['data'] and 'target' not in node['data']:
@@ -235,6 +327,14 @@ class Workflow(ExecutionElement):
                                                        ancestry=self.ancestry)
 
     def get_children(self, ancestry):
+        """Gets the children Steps of the Workflow in JSON format.
+        
+        Args:
+            ancestry (list[str]): The ancestry list for the Step to be returned.
+            
+        Returns:
+            The Step in the ancestry (if provided) as a JSON, otherwise None.
+        """
         if not ancestry:
             return {'steps': list(self.steps.keys())}
         else:
@@ -252,6 +352,11 @@ class Workflow(ExecutionElement):
         return str(output)
 
     def as_json(self, *args):
+        """Gets the JSON representation of a Step object.
+        
+        Returns:
+            The JSON representation of a Step object.
+        """
         return {'name': self.name,
                 'accumulated_risk': "{0:.2f}".format(self.accumulated_risk * 100.00),
                 'options': self.options.as_json(),

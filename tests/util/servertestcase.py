@@ -6,6 +6,7 @@ import core.config.config
 import core.config.paths
 import tests.config
 import server.flaskserver
+import logging
 
 
 class ServerTestCase(unittest.TestCase):

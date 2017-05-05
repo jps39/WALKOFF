@@ -1,6 +1,7 @@
 import json
 import os
 import sys
+import logging
 
 from flask import render_template
 from flask_security import login_required, auth_token_required, current_user, roles_accepted
@@ -18,6 +19,7 @@ from core.helpers import combine_dicts
 from server.context import running_context
 from . import database, interface
 from server import app
+
 
 monkey.patch_all()
 
@@ -40,22 +42,19 @@ def create_user():
                                                                 pages=default_urls)
 
         u = running_context.user_datastore.create_user(email='admin', password=encrypt_password('admin'))
-
         running_context.user_datastore.add_role_to_user(u, admin_role)
-
         running_context.db.session.commit()
 
     apps = set(helpers.list_apps()) - set([_app.name
                                            for _app in running_context.db.session.query(running_context.App).all()])
+    app.logger.debug('Found apps: {0}'.format(apps))
     for app_name in apps:
         running_context.db.session.add(running_context.App(app=app_name, devices=[]))
     running_context.db.session.commit()
 
     running_context.CaseSubscription.sync_to_subscriptions()
 
-"""
-    URLS
-"""
+    app.logger.handlers = logging.getLogger('server').handlers
 
 
 @app.route('/')
@@ -70,6 +69,7 @@ def default():
         return render_template("container.html", **args)
     else:
         return {"status": "Could Not Log In."}
+
 
 @app.route('/availablesubscriptions', methods=['GET'])
 @auth_token_required
@@ -118,6 +118,7 @@ def sys_pages(name):
         combine_dicts(args, {"authKey": current_user.get_auth_token()})
         return render_template("pages/" + name + "/index.html", **args)
     else:
+        app.logger.debug('Unsuccessful login attempt')
         return {"status": "Could Not Log In."}
 
 # Returns the API key for the user
@@ -127,6 +128,7 @@ def login_info():
     if current_user.is_authenticated:
         return json.dumps({"auth_token": current_user.get_auth_token()})
     else:
+        app.logger.debug('Unsuccessful login attempt')
         return {"status": "Could Not Log In."}
 
 
@@ -138,6 +140,7 @@ def list_all_widgets():
 
 
 def write_playbook_to_file(playbook_name):
+    app.logger.debug('Writing playbook {0} to file'.format(playbook_name))
     write_format = 'w' if sys.version_info[0] == 2 else 'wb'
     playbook_filename = os.path.join(core.config.paths.workflows_path, '{0}.workflow'.format(playbook_name))
     with open(playbook_filename, write_format) as workflow_out:
