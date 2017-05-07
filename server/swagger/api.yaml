@@ -1,0 +1,1907 @@
+swagger: '2.0'
+info:
+  description: >-
+    An active cyber defense development framework enabling orchestration
+    capabilities to be written once and deployed across WALKOFF-enabled
+    orchestration tools. https://iadgov.github.io/WALKOFF/
+  version: 0.0.1
+  title: WALKOFF
+  contact:
+    email: walkoff@nsa.gov
+  license:
+    name: Creative-Commons
+    url: 'http://creativecommons.org/licenses/by/4.0/'
+tags:
+  - name: Apps
+    description: App Management Operations
+  - name: Cases
+    description: WALKOFF logging and case management operations
+  - name: Subscriptions
+    description: WALKOFF case subscription operations
+  - name: Configuration
+    description: System Configuration Operations
+  - name: Devices
+    description: Device Operations
+  - name: Users
+    description: User operations
+  - name: Roles
+    description: Role Operations
+  - name: Metrics
+    description: Metric Operations
+  - name: Playbooks
+    description: Playbook Operations
+  - name: Workflows
+    description: Workflow Operations
+  - name: Events
+    description: Event Operations
+  - name: Scheduler
+    description: Scheduler Operations
+  - name: Widget
+    description: Widget Operations
+  - name: Widgets
+    description: Multiple Widget Operations
+  - name: Triggers
+    description: Trigger Operations
+  - name: System
+    description: System Operations
+schemes:
+  - http
+  - https
+paths:
+  /availablesubscriptions:
+    get:
+      tags:
+        - System
+      summary: Renders available subscription options
+      description: ''
+      operationId: display_possible_subscriptions
+      produces:
+        - application/json
+      responses:
+        '405':
+          description: Invalid input
+  /apps:
+    get:
+      tags:
+        - System
+      summary: Renders all apps
+      description: ''
+      operationId: list_all_apps
+      produces:
+        - application/json
+      responses:
+        '405':
+          description: Invalid input
+  /apps/actions:
+    get:
+      tags:
+        - System
+      summary: Renders all apps and all actions
+      description: ''
+      operationId: list_all_apps_and_actions
+      produces:
+        - application/json
+      responses:
+        '405':
+          description: Invalid input
+  /filters:
+    get:
+      tags:
+        - System
+      summary: Displays all filters
+      description: ''
+      operationId: display_filters
+      produces:
+        - application/json
+      responses:
+        '405':
+          description: Invalid input
+  /flags:
+    get:
+      tags:
+        - System
+      summary: Displays all flags
+      description: ''
+      operationId: display_flags
+      produces:
+        - application/json
+      responses:
+        '405':
+          description: Invalid input
+  '/interface/{interface_name}':
+    post:
+      tags:
+        - System
+      summary: Render interface
+      description: ''
+      operationId: render_interface
+      produces:
+        - application/json
+      parameters:
+        - name: interface_name
+          in: path
+          description: The name that needs to be fetched.
+          required: true
+          type: string
+        - in: body
+          name: widget_args
+          description: Pass page and arguments to render widget.
+          required: true
+          schema:
+            $ref: '#/definitions/render_args'
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Configuration key not found
+        '405':
+          description: Validation exception
+  /key:
+    get:
+      tags:
+        - System
+      summary: Displays api key
+      description: ''
+      operationId: display_key
+      produces:
+        - application/json
+      responses:
+        '405':
+          description: Invalid input
+  /widgets:
+    get:
+      tags:
+        - System
+      summary: Displays all widgets
+      description: ''
+      operationId: list_all_widgets
+      produces:
+        - application/json
+      responses:
+        '405':
+          description: Invalid input
+  /users:
+    get:
+      tags:
+        - Users
+      summary: Get all users
+      description: ''
+      operationId: getUsers
+      produces:
+        - application/json
+      responses:
+        '405':
+          description: Invalid input
+  '/users/{username}':
+    get:
+      tags:
+        - Users
+      summary: Get a user
+      description: ''
+      operationId: read_user
+      parameters:
+        - name: username
+          in: path
+          description: 'The name that needs to be fetched. '
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: User not found
+        '405':
+          description: Validation exception
+    post:
+      tags:
+        - Users
+      summary: Update a user
+      description: ''
+      operationId: update_user
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: username
+          in: path
+          description: The name that needs to be fetched.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Created user object
+          required: true
+          schema:
+            $ref: '#/definitions/user'
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: User not found
+        '405':
+          description: Validation exception
+    put:
+      tags:
+        - Users
+      summary: Add a user
+      description: ''
+      operationId: add_user
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: username
+          in: path
+          description: The name that needs to be fetched.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Created user object
+          required: true
+          schema:
+            $ref: '#/definitions/user'
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: User not found
+        '405':
+          description: Validation exception
+    delete:
+      tags:
+        - Users
+      summary: Remove a user
+      description: ''
+      operationId: delete_user
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: username
+          in: path
+          description: The name that needs to be fetched.
+          required: true
+          type: string
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: User not found
+        '405':
+          description: Validation exception
+  /roles:
+    get:
+      tags:
+        - Roles
+      summary: Get all roles
+      description: ''
+      operationId: display_roles
+      produces:
+        - application/json
+      responses:
+        '405':
+          description: Invalid input
+  '/roles/{role}':
+    get:
+      tags:
+        - Roles
+      summary: Get a role
+      description: ''
+      operationId: get_role
+      parameters:
+        - name: role
+          in: path
+          description: 'The name that needs to be fetched. '
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Role not found
+        '405':
+          description: Validation exception
+    post:
+      tags:
+        - Roles
+      summary: Update a role
+      description: ''
+      operationId: edit_role
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: role
+          in: path
+          description: The name that needs to be fetched.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Created role object
+          required: true
+          schema:
+            $ref: '#/definitions/role'
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Role not found
+        '405':
+          description: Validation exception
+    put:
+      tags:
+        - Roles
+      summary: Add a role
+      description: ''
+      operationId: create_role
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: role
+          in: path
+          description: The name that needs to be fetched.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Created role object
+          required: true
+          schema:
+            $ref: '#/definitions/role'
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Role not found
+        '405':
+          description: Validation exception
+  /configuration:
+    get:
+      tags:
+        - Configuration
+      summary: Get whole configuration
+      description: ''
+      operationId: display_configuration
+      produces:
+        - application/json
+      responses:
+        '405':
+          description: Invalid input
+  '/configuration/{key}':
+    get:
+      tags:
+        - Configuration
+      summary: Get a configuration key
+      description: ''
+      operationId: get_configuration_key
+      parameters:
+        - name: key
+          in: path
+          description: 'The configuration key '
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Configuration key not found
+        '405':
+          description: Validation exception
+    post:
+      tags:
+        - Configuration
+      summary: Edits a configuration value
+      description: ''
+      operationId: edit_configuration
+      consumes:
+        - string
+      produces:
+        - application/json
+      parameters:
+        - name: key
+          in: path
+          description: The name that needs to be fetched.
+          required: true
+          type: string
+        - in: body
+          name: config_value
+          description: Value for configuration key
+          required: true
+          schema:
+            $ref: '#/definitions/config_value'
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Configuration key not found
+        '405':
+          description: Validation exception
+  '/events/{event_id}':
+    post:
+      tags:
+        - Events
+      summary: Edit an event note
+      description: ''
+      operationId: edit_event_note
+      produces:
+        - application/json
+      parameters:
+        - name: event_id
+          in: path
+          description: The name that needs to be fetched.
+          required: true
+          type: string
+        - in: body
+          name: config_value
+          description: Value for configuration key
+          required: true
+          schema:
+            $ref: '#/definitions/event_note'
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Configuration key not found
+        '405':
+          description: Validation exception
+  /scheduler/start:
+    post:
+      tags:
+        - Scheduler
+      summary: Starts the scheduler
+      description: ''
+      operationId: start_scheduler
+      produces:
+        - application/json
+      responses:
+        '400':
+          description: Could not start
+  /scheduler/stop:
+    post:
+      tags:
+        - Scheduler
+      summary: Stops the scheduler
+      description: ''
+      operationId: stop_scheduler
+      produces:
+        - application/json
+      responses:
+        '400':
+          description: Could not start
+  /scheduler/pause:
+    post:
+      tags:
+        - Scheduler
+      summary: Pause the scheduler
+      description: ''
+      operationId: pause_scheduler
+      produces:
+        - application/json
+      responses:
+        '400':
+          description: Could not start
+  /scheduler/resume:
+    post:
+      tags:
+        - Scheduler
+      summary: Resume the scheduler
+      description: ''
+      operationId: resume_scheduler
+      produces:
+        - application/json
+      responses:
+        '400':
+          description: Could not start
+  '/scheduler/{job_id}/pause':
+    post:
+      tags:
+        - Scheduler
+      summary: Resume the scheduler
+      description: ''
+      operationId: pause_scheduler_job
+      produces:
+        - application/json
+      parameters:
+        - name: job_id
+          in: path
+          description: The name that needs to be fetched.
+          required: true
+          type: string
+      responses:
+        '400':
+          description: Could not pause job
+  '/scheduler/{job_id}/resume':
+    post:
+      tags:
+        - Scheduler
+      summary: Resume the scheduler
+      description: ''
+      operationId: resume_scheduler_job
+      produces:
+        - application/json
+      parameters:
+        - name: job_id
+          in: path
+          description: The name that needs to be fetched.
+          required: true
+          type: string
+      responses:
+        '400':
+          description: Could not resume job
+  /scheduler/jobs:
+    get:
+      tags:
+        - Scheduler
+      summary: Get Scheduler Jobs
+      description: ''
+      operationId: get_scheduler_jobs
+      produces:
+        - application/json
+      responses:
+        '400':
+          description: Could not get jobs
+  /widget/display:
+    post:
+      tags:
+        - Widget
+      summary: Render a widget
+      description: ''
+      operationId: render_widget
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: widget_args
+          description: Pass page and arguments to render widget.
+          required: true
+          schema:
+            $ref: '#/definitions/render_args'
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Configuration key not found
+        '405':
+          description: Validation exception
+  '/widgets/{widget_name}':
+    post:
+      tags:
+        - Widgets
+      summary: Render widgets
+      description: ''
+      operationId: render_widgets
+      produces:
+        - application/json
+      parameters:
+        - name: widget_name
+          in: path
+          description: The name that needs to be fetched.
+          required: true
+          type: string
+        - in: body
+          name: widget_args
+          description: Pass page and arguments to render widget.
+          required: true
+          schema:
+            $ref: '#/definitions/render_args'
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Configuration key not found
+        '405':
+          description: Validation exception
+  /metrics/apps:
+    get:
+      tags:
+        - Metrics
+      summary: get app usage metrics
+      description: ''
+      operationId: get_app_metrics
+      produces:
+        - application/json
+      responses:
+        '400':
+          description: Could not get jobs
+  /metrics/workflows:
+    get:
+      tags:
+        - Metrics
+      summary: Get Workflow Metrics
+      description: ''
+      operationId: get_workflow_metrics
+      produces:
+        - application/json
+      responses:
+        '400':
+          description: Could not get jobs
+  /cases:
+    get:
+      tags:
+        - Cases
+      summary: Render cases
+      description: ''
+      operationId: display_cases
+      produces:
+        - application/json
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Configuration key not found
+        '405':
+          description: Validation exception
+  '/cases/{case}':
+    get:
+      tags:
+        - Cases
+      summary: Get a case
+      description: ''
+      operationId: get_case
+      parameters:
+        - name: case
+          in: path
+          description: 'The name that needs to be fetched. '
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Case not found
+        '405':
+          description: Validation exception
+    post:
+      tags:
+        - Cases
+      summary: Update a case
+      description: ''
+      operationId: edit_case
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: case
+          in: path
+          description: The name that needs to be fetched.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Created case object
+          required: true
+          schema:
+            $ref: '#/definitions/case'
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Case not found
+        '405':
+          description: Validation exception
+    put:
+      tags:
+        - Cases
+      summary: Add a case
+      description: ''
+      operationId: create_case
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: case
+          in: path
+          description: The name that needs to be fetched.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Created role object
+          required: true
+          schema:
+            $ref: '#/definitions/case'
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Case not found
+        '405':
+          description: Validation exception'
+    delete:
+      tags:
+        - Cases
+      summary: Remove a case
+      description: ''
+      operationId: delete_case
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: case
+          in: path
+          description: The name that needs to be fetched.
+          required: true
+          type: string
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Case not found
+        '405':
+          description: Validation exception
+  /cases/import:
+    get:
+      tags:
+        - Cases
+      summary: Import case data
+      description: ''
+      operationId: import_cases
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: case_data
+          description: Data to import into case database.
+          required: true
+          schema:
+            $ref: '#/definitions/filename'
+      responses:
+        '400':
+          description: Could not import case data
+  /cases/export:
+    get:
+      tags:
+        - Cases
+      summary: Export case data
+      description: ''
+      operationId: export_cases
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: case_data
+          description: Data to export from case database.
+          required: true
+          schema:
+            $ref: '#/definitions/filename'
+      responses:
+        '400':
+          description: Could not export case data
+  /cases/subscriptions:
+    get:
+      tags:
+        - Subscriptions
+      summary: Gets all subscriptions
+      description: ''
+      operationId: display_subscriptions
+      produces:
+        - application/json
+      responses:
+        '400':
+          description: Could not import case data
+  '/cases/{case}/events':
+    get:
+      tags:
+        - Cases
+      summary: Get case events
+      description: ''
+      operationId: get_events
+      parameters:
+        - name: case
+          in: path
+          description: 'The name that needs to be fetched. '
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Events not found
+        '405':
+          description: Validation exception
+  '/cases/{case}/subscriptions':
+    get:
+      tags:
+        - Subscriptions
+      summary: Get a subscription
+      description: ''
+      operationId: get_subscription
+      parameters:
+        - name: case
+          in: path
+          description: 'The name that needs to be fetched. '
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Subscription not found
+        '405':
+          description: Validation exception
+    post:
+      tags:
+        - Subscriptions
+      summary: Update a subscription
+      description: ''
+      operationId: edit_subscription
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: case
+          in: path
+          description: The name that needs to be fetched.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Created subscription object
+          required: true
+          schema:
+            $ref: '#/definitions/subscription'
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Subscription not found
+        '405':
+          description: Validation exception
+    put:
+      tags:
+        - Subscriptions
+      summary: Add a subscription
+      description: ''
+      operationId: create_subscription
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: case
+          in: path
+          description: The name that needs to be fetched.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Created subscription object
+          required: true
+          schema:
+            $ref: '#/definitions/subscription'
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Subscription not found
+        '405':
+          description: Validation exception'
+    delete:
+      tags:
+        - Subscriptions
+      summary: Remove a subscription
+      description: ''
+      operationId: delete_subscription
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: case
+          in: path
+          description: The name that needs to be fetched.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Created subscription object
+          required: true
+          schema:
+            $ref: '#/definitions/subscription'
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Subscription not found
+        '405':
+          description: Validation exception
+  '/apps/{app_name}':
+    get:
+      tags:
+        - Apps
+      summary: Render an App
+      description: ''
+      operationId: read_app
+      produces:
+        - application/json
+      parameters:
+        - name: app_name
+          in: path
+          description: 'The name that needs to be fetched. '
+          required: true
+          type: string
+        - in: body
+          name: app_args
+          description: Pass page and arguments to render widget.
+          required: true
+          schema:
+            $ref: '#/definitions/render_args'
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: App not found
+        '405':
+          description: Validation exception
+  '/apps/{app_name}/actions':
+    get:
+      tags:
+        - Apps
+      summary: Get app actions
+      description: ''
+      operationId: list_app_actions
+      produces:
+        - application/json
+      parameters:
+        - name: app_name
+          in: path
+          description: 'The name that needs to be fetched. '
+          required: true
+          type: string
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: App not found
+        '405':
+          description: Validation exception
+  '/apps/{app_name}/devices':
+    get:
+      tags:
+        - Apps
+      summary: Get app devices
+      description: ''
+      operationId: list_app_devices
+      produces:
+        - application/json
+      parameters:
+        - name: app_name
+          in: path
+          description: 'The name that needs to be fetched. '
+          required: true
+          type: string
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: App devices not found
+        '405':
+          description: Validation exception
+  '/apps/{app_name}/devices/import':
+    get:
+      tags:
+        - Apps
+      summary: import apps devices
+      description: ''
+      operationId: import_devices
+      produces:
+        - application/json
+      parameters:
+        - name: app_name
+          in: path
+          description: 'The name that needs to be fetched. '
+          required: true
+          type: string
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: App devices not found
+        '405':
+          description: Validation exception
+  '/apps/{app_name}/devices/export':
+    get:
+      tags:
+        - Apps
+      summary: export apps devices
+      description: ''
+      operationId: export_devices
+      produces:
+        - application/json
+      parameters:
+        - name: app_name
+          in: path
+          description: 'The name that needs to be fetched. '
+          required: true
+          type: string
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: App devices not found
+        '405':
+          description: Validation exception
+  '/apps/{app_name}/devices/{device_name}':
+    get:
+      tags:
+        - Devices
+      summary: Get a device
+      description: ''
+      operationId: get_device
+      parameters:
+        - name: app_name
+          in: path
+          description: 'The name that needs to be fetched. '
+          required: true
+          type: string
+        - name: device_name
+          in: path
+          description: 'The name that needs to be fetched. '
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Device not found
+        '405':
+          description: Validation exception
+    post:
+      tags:
+        - Devices
+      summary: Update a device
+      description: ''
+      operationId: edit_device
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: app_name
+          in: path
+          description: 'The name that needs to be fetched. '
+          required: true
+          type: string
+        - name: device_name
+          in: path
+          description: 'The name that needs to be fetched. '
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Edited device object
+          required: true
+          schema:
+            $ref: '#/definitions/device'
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Device not found
+        '405':
+          description: Validation exception
+    put:
+      tags:
+        - Devices
+      summary: Add a device
+      description: ''
+      operationId: create_device
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: app_name
+          in: path
+          description: 'The name that needs to be fetched. '
+          required: true
+          type: string
+        - name: device_name
+          in: path
+          description: 'The name that needs to be fetched. '
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Created device object
+          required: true
+          schema:
+            $ref: '#/definitions/device'
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Device not found
+        '405':
+          description: Validation exception'
+    delete:
+      tags:
+        - Devices
+      summary: Remove a device
+      description: ''
+      operationId: delete_device
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: app_name
+          in: path
+          description: 'The name that needs to be fetched. '
+          required: true
+          type: string
+        - name: device_name
+          in: path
+          description: 'The name that needs to be fetched. '
+          required: true
+          type: string
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Device not found
+        '405':
+          description: Validation exception
+  /triggers:
+    get:
+      tags:
+        - Triggers
+      summary: Render triggers
+      description: ''
+      operationId: display_triggers
+      produces:
+        - application/json
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Configuration key not found
+        '405':
+          description: Validation exception
+  /triggers/execute:
+    get:
+      tags:
+        - Triggers
+      summary: Trigger Listener
+      description: ''
+      operationId: listener
+      produces:
+        - application/json
+      responses:
+        '400':
+          description: Could not execute trigger
+  '/triggers/{trigger}':
+    get:
+      tags:
+        - Triggers
+      summary: Get a trigger
+      description: ''
+      operationId: get_trigger
+      parameters:
+        - name: trigger
+          in: path
+          description: 'The name that needs to be fetched. '
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Trigger not found
+        '405':
+          description: Validation exception
+    post:
+      tags:
+        - Triggers
+      summary: Update a trigger
+      description: ''
+      operationId: edit_trigger
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: trigger
+          in: path
+          description: The name that needs to be fetched.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Created trigger object
+          required: true
+          schema:
+            $ref: '#/definitions/trigger'
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Trigger not found
+        '405':
+          description: Validation exception
+    put:
+      tags:
+        - Triggers
+      summary: Add a trigger
+      description: ''
+      operationId: create_trigger
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: trigger
+          in: path
+          description: The name that needs to be fetched.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Created trigger object
+          required: true
+          schema:
+            $ref: '#/definitions/trigger'
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Trigger not found
+        '405':
+          description: Validation exception'
+    delete:
+      tags:
+        - Triggers
+      summary: Remove a trigger
+      description: ''
+      operationId: delete_trigger
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: trigger
+          in: path
+          description: The name that needs to be fetched.
+          required: true
+          type: string
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Trigger not found
+        '405':
+          description: Validation exception
+  /playbooks:
+    get:
+      tags:
+        - Playbooks
+      summary: Displays all playbooks
+      description: ''
+      operationId: list_available_playbooks
+      produces:
+        - application/json
+      responses:
+        '405':
+          description: Invalid input
+  '/playbooks/{playbook_name}':
+    get:
+      tags:
+        - Playbooks
+      summary: Get a playbook
+      description: ''
+      operationId: get_playbook
+      parameters:
+        - name: playbook_name
+          in: path
+          description: 'The name that needs to be fetched. '
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Created case object
+          required: true
+          schema:
+            $ref: '#/definitions/playbook'
+      produces:
+        - application/json
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Playbook not found
+        '405':
+          description: Validation exception
+    post:
+      tags:
+        - Playbooks
+      summary: Update a playbook
+      description: ''
+      operationId: edit_playbook
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: playbook_name
+          in: path
+          description: The name that needs to be fetched.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Created case object
+          required: true
+          schema:
+            $ref: '#/definitions/playbook'
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Playbook not found
+        '405':
+          description: Validation exception
+    put:
+      tags:
+        - Playbooks
+      summary: Add a playbook
+      description: ''
+      operationId: create_playbook
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: playbook_name
+          in: path
+          description: The name that needs to be fetched.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Created role object
+          required: true
+          schema:
+            $ref: '#/definitions/playbook'
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Playbook not found
+        '405':
+          description: Validation exception'
+    delete:
+      tags:
+        - Playbooks
+      summary: Remove a playbook
+      description: ''
+      operationId: delete_playbook
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: playbook_name
+          in: path
+          description: The name that needs to be fetched.
+          required: true
+          type: string
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Playbook not found
+        '405':
+          description: Validation exception
+  '/playbooks/{playbook_name}/copy':
+    post:
+      tags:
+        - Playbooks
+      summary: copy a playbook
+      description: ''
+      operationId: copy_playbook
+      parameters:
+        - name: playbook_name
+          in: path
+          description: 'The name that needs to be fetched. '
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Playbook name
+          required: true
+          schema:
+            $ref: '#/definitions/playbook'
+      produces:
+        - application/json
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Playbook not found
+        '405':
+          description: Validation exception
+  '/playbooks/{playbook_name}/workflows':
+    get:
+      tags:
+        - Playbooks
+      summary: display all workflows in playbook
+      description: ''
+      operationId: display_workflows_for_playbook
+      parameters:
+        - name: playbook_name
+          in: path
+          description: 'The name that needs to be fetched. '
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Playbook not found
+        '405':
+          description: Validation exception
+  '/playbooks/{playbook_name}/workflows/{workflow_name}':
+    get:
+      tags:
+        - Workflows
+      summary: Get a workflow
+      description: ''
+      operationId: get_workflow
+      parameters:
+        - name: playbook_name
+          in: path
+          description: 'The name that needs to be fetched. '
+          required: true
+          type: string
+        - name: workflow_name
+          in: path
+          description: 'The name that needs to be fetched. '
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Workflow not found
+        '405':
+          description: Validation exception
+    post:
+      tags:
+        - Workflows
+      summary: Update a workflow
+      description: ''
+      operationId: edit_workflow
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: playbook_name
+          in: path
+          description: The name that needs to be fetched.
+          required: true
+          type: string
+        - name: workflow_name
+          in: path
+          description: 'The name that needs to be fetched. '
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Created case object
+          required: true
+          schema:
+            $ref: '#/definitions/workflow'
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Workflow not found
+        '405':
+          description: Validation exception
+    put:
+      tags:
+        - Workflows
+      summary: Add a workflow
+      description: ''
+      operationId: create_workflow
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: playbook_name
+          in: path
+          description: The name that needs to be fetched.
+          required: true
+          type: string
+        - name: workflow_name
+          in: path
+          description: 'The name that needs to be fetched. '
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Created role object
+          required: true
+          schema:
+            $ref: '#/definitions/add_workflow'
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Workflow not found
+        '405':
+          description: Validation exception'
+    delete:
+      tags:
+        - Workflows
+      summary: Remove a workflow
+      description: ''
+      operationId: delete_workflow
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: playbook_name
+          in: path
+          description: The name that needs to be fetched.
+          required: true
+          type: string
+        - name: workflow_name
+          in: path
+          description: 'The name that needs to be fetched. '
+          required: true
+          type: string
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Workflow not found
+        '405':
+          description: Validation exception
+  '/playbooks/{playbook_name}/workflows/{workflow_name}/risk':
+    get:
+      tags:
+        - Workflows
+      summary: Get a workflow's risk value
+      description: ''
+      operationId: get_workflow_risk
+      parameters:
+        - name: playbook_name
+          in: path
+          description: 'The name that needs to be fetched. '
+          required: true
+          type: string
+        - name: workflow_name
+          in: path
+          description: 'The name that needs to be fetched. '
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Workflow not found
+        '405':
+          description: Validation exception
+  '/playbooks/{playbook_name}/workflows/{workflow_name}/copy':
+    post:
+      tags:
+        - Workflows
+      summary: Copy a workflow
+      description: ''
+      operationId: copy_workflow
+      parameters:
+        - name: playbook_name
+          in: path
+          description: 'The name that needs to be fetched. '
+          required: true
+          type: string
+        - name: workflow_name
+          in: path
+          description: 'The name that needs to be fetched. '
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Created case object
+          required: true
+          schema:
+            $ref: '#/definitions/playbook_workflow'
+      produces:
+        - application/json
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Workflow not found
+        '405':
+          description: Validation exception
+  '/playbooks/{playbook_name}/workflows/{workflow_name}/execute':
+    post:
+      tags:
+        - Workflows
+      summary: Execute a workflow
+      description: ''
+      operationId: execute_workflow
+      parameters:
+        - name: playbook_name
+          in: path
+          description: 'The name that needs to be fetched. '
+          required: true
+          type: string
+        - name: workflow_name
+          in: path
+          description: 'The name that needs to be fetched. '
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Workflow not found
+        '405':
+          description: Validation exception
+  '/playbooks/{playbook_name}/workflows/{workflow_name}/pause':
+    post:
+      tags:
+        - Workflows
+      summary: Pause a workflow
+      description: ''
+      operationId: pause_workflow
+      parameters:
+        - name: playbook_name
+          in: path
+          description: 'The name that needs to be fetched. '
+          required: true
+          type: string
+        - name: workflow_name
+          in: path
+          description: 'The name that needs to be fetched. '
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Workflow not found
+        '405':
+          description: Validation exception
+  '/playbooks/{playbook_name}/workflows/{workflow_name}/resume':
+    post:
+      tags:
+        - Workflows
+      summary: Resume a workflow
+      description: ''
+      operationId: resume_workflow
+      parameters:
+        - name: playbook_name
+          in: path
+          description: 'The name that needs to be fetched. '
+          required: true
+          type: string
+        - name: workflow_name
+          in: path
+          description: 'The name that needs to be fetched. '
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Created case object
+          required: true
+          schema:
+            $ref: '#/definitions/resume_workflow'
+      produces:
+        - application/json
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Workflow not found
+        '405':
+          description: Validation exception
+  '/playbooks/{playbook_name}/workflows/{workflow_name}/save':
+    post:
+      tags:
+        - Workflows
+      summary: Save a workflow
+      description: ''
+      operationId: save_workflow
+      parameters:
+        - name: playbook_name
+          in: path
+          description: 'The name that needs to be fetched. '
+          required: true
+          type: string
+        - name: workflow_name
+          in: path
+          description: 'The name that needs to be fetched. '
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Created case object
+          required: true
+          schema:
+            $ref: '#/definitions/workflow_text'
+      produces:
+        - application/json
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Workflow not found
+        '405':
+          description: Validation exception
+securityDefinitions:
+  AuthenticationToken:
+    type: apiKey
+    name: Authentication-Token
+    in: header
+security:
+  - AuthenticationToken: []
+definitions:
+  user:
+    type: object
+    properties:
+      username:
+        type: string
+      password:
+        type: string
+      role:
+        type: array
+        items:
+          type: string
+  role:
+    type: object
+    properties:
+      description:
+        type: string
+      pages:
+        type: array
+        items:
+          type: string
+  config_value:
+    type: object
+    properties:
+      value:
+        type: string
+  event_note:
+    type: object
+    properties:
+      value:
+        type: string
+  render_args:
+    type: object
+    properties:
+      page:
+        type: string
+      key:
+        type: array
+        items:
+          type: string
+  case:
+    type: object
+    properties:
+      description:
+        type: string
+      pages:
+        type: array
+        items:
+          type: string
+  filename:
+    type: object
+    properties:
+      Filename:
+        type: string
+  subscription:
+    type: object
+    properties:
+      ancestry:
+        type: array
+        items:
+          type: string
+      events:
+        type: array
+        items:
+          type: string
+  device:
+    type: object
+    properties:
+      name:
+        type: string
+      username:
+        type: string
+      password:
+        type: string
+      ip_address:
+        type: string
+      port:
+        type: integer
+      extraFields:
+        type: string
+  trigger:
+    type: object
+    properties:
+      name:
+        type: string
+      conditional:
+        type: string
+      playbook:
+        type: string
+      workflow:
+        type: string
+  playbook:
+    type: object
+    properties:
+      name:
+        type: string
+  add_workflow:
+    type: object
+    properties:
+      playbook:
+        type: string
+      template:
+        type: string
+  playbook_workflow:
+    type: object
+    properties:
+      playbook:
+        type: string
+      workflow:
+        type: string
+  workflow:
+    type: object
+    properties:
+      name:
+        type: string
+      accumulated_risk:
+        type: string
+      options:
+        type: object
+      steps:
+        type: object
+  resume_workflow:
+    type: string
+  workflow_text:
+    type: object

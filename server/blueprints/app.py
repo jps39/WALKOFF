@@ -41,19 +41,6 @@ def list_app_actions():
     else:
         return json.dumps({'status': 'error: app name not found'})
 
-#TODO: DELETE
-@app_page.route('/display', methods=['POST'])
-@auth_token_required
-@roles_required('admin')
-def display_app():
-    form = forms.RenderArgsForm(request.form)
-    path = '{0}/interface/templates/{1}'.format(g.app, form.page.data)  # Do not use os.path.join
-    args = load_app(g.app, form.key.entries, form.value.entries)
-
-    template = render_template(path, **args)
-    return template
-
-
 # Controls the non-specific app device configuration
 @app_page.route('/devices', methods=['GET'])
 @auth_token_required
