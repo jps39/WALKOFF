@@ -9,8 +9,13 @@ from server.flaskserver import running_context
 import core.config.config
 import core.config.paths
 
-app_page = Blueprint('appPage', 'apps', template_folder=os.path.abspath('apps'), static_folder='static')
 
+
+app_page = Blueprint('appPage', 'apps', template_folder=os.path.abspath('apps'), static_folder='static')
+@app_page.url_value_preprocessor
+def static_request_handler(endpoint, values):
+    g.app = values.pop('app', None)
+    app_page.static_folder = os.path.abspath(os.path.join('apps', g.app, 'interface', 'static'))
 
 @app_page.url_value_preprocessor
 def static_request_handler(endpoint, values):

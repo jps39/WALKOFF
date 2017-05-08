@@ -166,7 +166,7 @@ paths:
         - Users
       summary: Get all users
       description: ''
-      operationId: server.controllers.users.get_sers
+      operationId: server.controllers.users.get_users
       produces:
         - application/json
       responses:
@@ -930,7 +930,7 @@ paths:
         '405':
           description: Validation exception
   '/apps/{app_name}':
-    get:
+    post:
       tags:
         - Apps
       summary: Render an App
@@ -947,7 +947,7 @@ paths:
         - in: body
           name: app_args
           description: Pass page and arguments to render widget.
-          required: true
+          required: false
           schema:
             $ref: '#/definitions/render_args'
       responses:
@@ -986,6 +986,8 @@ paths:
       summary: Get app devices
       description: ''
       operationId: server.controllers.apps.list_app_devices
+      consumes:
+        - application/json
       produces:
         - application/json
       parameters:
@@ -1816,10 +1818,9 @@ definitions:
     properties:
       page:
         type: string
-      key:
-        type: array
-        items:
-          type: string
+      args:
+        type: object
+
   case:
     type: object
     properties:

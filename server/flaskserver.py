@@ -34,6 +34,7 @@ database.initialize_user_roles(urls)
 # Creates Test Data
 @app.before_first_request
 def create_user():
+
     running_context.db.create_all()
 
     if not database.User.query.first():

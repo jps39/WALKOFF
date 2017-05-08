@@ -11,7 +11,7 @@ class Context(object):
 
         from server.app import app
         from server.appdevice import Device, App
-        from server.database import User, Role, userRoles, db, user_datastore
+        from server.database import User, Role, userRoles, user_datastore, db
         from server.triggers import Triggers
         from server.casesubscription import CaseSubscription
         from core.controller import controller

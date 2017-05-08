@@ -1,12 +1,18 @@
-import flask_sqlalchemy
-from flask_security import Security, SQLAlchemyUserDatastore, UserMixin, RoleMixin
+from flask_security import UserMixin, RoleMixin
 from .app import app
-
-# Database Connection Object
-db = flask_sqlalchemy.SQLAlchemy(app)
+import flask_sqlalchemy
+from flask_security import Security, SQLAlchemyUserDatastore
 
 userRoles = {}
+user_datastore = None
 
+db = flask_sqlalchemy.SQLAlchemy(app)
+
+urls = ['/', '/key', '/playbook', '/configuration', '/interface', '/execution/listener',
+        '/execution/listener/triggers', '/metrics',
+        '/roles', '/users', '/configuration', '/cases', '/apps', '/execution/scheduler']
+
+default_urls = urls
 
 def initialize_user_roles(urls):
     """Initializes the roles dictionary, used in determining which role can access which page(s).
@@ -128,7 +134,9 @@ class User(Base, UserMixin):
     def __repr__(self):
         return self.email
 
-
-# Setup Flask Security
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, user_datastore)
+initialize_user_roles(urls)
+
+
+

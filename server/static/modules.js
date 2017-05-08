@@ -7,10 +7,12 @@ function changeInterface(page_url, opt){
             var tmp = null;
               $.ajax({
                   url:page_url,
-                  data:opt.data || {},
+                  data:JSON.stringify(opt.data || {}),
                   type:"POST",
                   async:false,
                   dataType:"html",
+                  contentType: "application/json",
+                  processData: false,
                   beforeSend: function(xhr, settings){
                         xhr.setRequestHeader("Authentication-Token", authKey);
                   },

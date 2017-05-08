@@ -1,7 +1,6 @@
 from server import app as __flaskapp
 from server.blueprints.cases import setup_case_stream
 
-
 class _BlueprintInjection(object):
     def __init__(self, blueprint, rule=''):
         self.blueprint = blueprint

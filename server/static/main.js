@@ -88,7 +88,7 @@ $(document).ready(function(){
             options: {
                 preface:"apps",
                 page:app,
-                data:{"page": "index.html", "key-0":"name", "value-0":"testing"},
+                data:{"page": "index.html", "args":{"name":"testing"}},
             }
         });
     });
