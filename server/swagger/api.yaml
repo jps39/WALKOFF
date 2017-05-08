@@ -126,7 +126,7 @@ paths:
         - in: body
           name: widget_args
           description: Pass page and arguments to render widget.
-          required: true
+          required: false
           schema:
             $ref: '#/definitions/render_args'
       responses:
@@ -166,7 +166,7 @@ paths:
         - Users
       summary: Get all users
       description: ''
-      operationId: server.controllers.users.get_users
+      operationId: server.controllers.users.get_sers
       produces:
         - application/json
       responses:
