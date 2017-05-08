@@ -1,6 +1,6 @@
 from flask_security import roles_accepted
 
-def render_widget():
+def render_widget(widget_args):
     from server.context import running_context
     @roles_accepted(*running_context.user_roles['/cases'])
     def __func():

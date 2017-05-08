@@ -28,14 +28,14 @@ def resume_scheduler():
         return
     return __func()
 
-def pause_scheduler_job():
+def pause_scheduler_job(job_id):
     from server.context import running_context
     @roles_accepted(*running_context.user_roles['/cases'])
     def __func():
         return
     return __func()
 
-def resume_scheduler_job():
+def resume_scheduler_job(job_id):
     from server.context import running_context
     @roles_accepted(*running_context.user_roles['/cases'])
     def __func():

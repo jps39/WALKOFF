@@ -37,7 +37,7 @@ def display_flags():
         return
     return __func()
 
-def render_interface():
+def render_interface(interface_name, widget_args):
     from server.context import running_context
     @roles_accepted(*running_context.user_roles['/cases'])
     def __func():

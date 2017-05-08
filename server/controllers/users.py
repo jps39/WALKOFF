@@ -7,28 +7,28 @@ def get_users():
         return
     return __func()
 
-def read_user():
+def read_user(username):
     from server.context import running_context
     @roles_accepted(*running_context.user_roles['/cases'])
     def __func():
         return
     return __func()
 
-def update_user():
+def update_user(username, body):
     from server.context import running_context
     @roles_accepted(*running_context.user_roles['/cases'])
     def __func():
         return
     return __func()
 
-def add_user():
+def add_user(username, body):
     from server.context import running_context
     @roles_accepted(*running_context.user_roles['/cases'])
     def __func():
         return
     return __func()
 
-def delete_user():
+def delete_user(username):
     from server.context import running_context
     @roles_accepted(*running_context.user_roles['/cases'])
     def __func():

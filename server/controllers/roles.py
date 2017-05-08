@@ -7,21 +7,21 @@ def display_roles():
         return
     return __func()
 
-def get_role():
+def get_role(role):
     from server.context import running_context
     @roles_accepted(*running_context.user_roles['/cases'])
     def __func():
         return
     return __func()
 
-def edit_role():
+def edit_role(role, body):
     from server.context import running_context
     @roles_accepted(*running_context.user_roles['/cases'])
     def __func():
         return
     return __func()
 
-def create_role():
+def create_role(role, body):
     from server.context import running_context
     @roles_accepted(*running_context.user_roles['/cases'])
     def __func():
