@@ -7,6 +7,7 @@ import core.case.database as case_database
 from core.config import config, paths
 from server import flaskserver
 
+logger = logging.getLogger('startserver')
 
 def get_ssl_context():
     if config.https.lower() == "true":
@@ -43,7 +44,7 @@ def setup_logger():
         logging.config.dictConfig(log_config)
     else:
         logging.basicConfig()
-        logging.info("Basic logging is being used")
+        logger.info("Basic logging is being used")
 
 
 if __name__ == "__main__":
