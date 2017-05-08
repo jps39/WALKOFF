@@ -18,7 +18,7 @@ from core import helpers
 from core.helpers import combine_dicts
 from server.context import running_context
 from . import database, interface
-from server import app
+from server.app import app
 
 
 monkey.patch_all()

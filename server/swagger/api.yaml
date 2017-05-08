@@ -54,7 +54,7 @@ paths:
         - System
       summary: Renders available subscription options
       description: ''
-      operationId: display_possible_subscriptions
+      operationId: server.controllers.system.display_possible_subscriptions
       produces:
         - application/json
       responses:
@@ -66,7 +66,7 @@ paths:
         - System
       summary: Renders all apps
       description: ''
-      operationId: list_all_apps
+      operationId: server.controllers.system.list_all_apps
       produces:
         - application/json
       responses:
@@ -78,7 +78,7 @@ paths:
         - System
       summary: Renders all apps and all actions
       description: ''
-      operationId: list_all_apps_and_actions
+      operationId: server.controllers.system.list_all_apps_and_actions
       produces:
         - application/json
       responses:
@@ -90,7 +90,7 @@ paths:
         - System
       summary: Displays all filters
       description: ''
-      operationId: display_filters
+      operationId: server.controllers.system.display_filters
       produces:
         - application/json
       responses:
@@ -102,7 +102,7 @@ paths:
         - System
       summary: Displays all flags
       description: ''
-      operationId: display_flags
+      operationId: server.controllers.system.display_flags
       produces:
         - application/json
       responses:
@@ -114,7 +114,7 @@ paths:
         - System
       summary: Render interface
       description: ''
-      operationId: render_interface
+      operationId: server.controllers.system.render_interface
       produces:
         - application/json
       parameters:
@@ -142,7 +142,7 @@ paths:
         - System
       summary: Displays api key
       description: ''
-      operationId: display_key
+      operationId: server.controllers.system.display_key
       produces:
         - application/json
       responses:
@@ -154,7 +154,7 @@ paths:
         - System
       summary: Displays all widgets
       description: ''
-      operationId: list_all_widgets
+      operationId: server.controllers.system.list_all_widgets
       produces:
         - application/json
       responses:
@@ -166,7 +166,7 @@ paths:
         - Users
       summary: Get all users
       description: ''
-      operationId: getUsers
+      operationId: server.controllers.users.get_users
       produces:
         - application/json
       responses:
@@ -178,7 +178,7 @@ paths:
         - Users
       summary: Get a user
       description: ''
-      operationId: read_user
+      operationId: server.controllers.users.read_user
       parameters:
         - name: username
           in: path
@@ -199,7 +199,7 @@ paths:
         - Users
       summary: Update a user
       description: ''
-      operationId: update_user
+      operationId: server.controllers.users.update_user
       consumes:
         - application/json
       produces:
@@ -228,7 +228,7 @@ paths:
         - Users
       summary: Add a user
       description: ''
-      operationId: add_user
+      operationId: server.controllers.users.add_user
       consumes:
         - application/json
       produces:
@@ -257,7 +257,7 @@ paths:
         - Users
       summary: Remove a user
       description: ''
-      operationId: delete_user
+      operationId: server.controllers.users.delete_user
       consumes:
         - application/json
       produces:
@@ -281,7 +281,7 @@ paths:
         - Roles
       summary: Get all roles
       description: ''
-      operationId: display_roles
+      operationId: server.controllers.roles.display_roles
       produces:
         - application/json
       responses:
@@ -293,7 +293,7 @@ paths:
         - Roles
       summary: Get a role
       description: ''
-      operationId: get_role
+      operationId: server.controllers.roles.get_role
       parameters:
         - name: role
           in: path
@@ -314,7 +314,7 @@ paths:
         - Roles
       summary: Update a role
       description: ''
-      operationId: edit_role
+      operationId: server.controllers.roles.edit_role
       consumes:
         - application/json
       produces:
@@ -343,7 +343,7 @@ paths:
         - Roles
       summary: Add a role
       description: ''
-      operationId: create_role
+      operationId: server.controllers.roles.create_role
       consumes:
         - application/json
       produces:
@@ -373,7 +373,7 @@ paths:
         - Configuration
       summary: Get whole configuration
       description: ''
-      operationId: display_configuration
+      operationId: server.controllers.configuration.display_configuration
       produces:
         - application/json
       responses:
@@ -385,7 +385,7 @@ paths:
         - Configuration
       summary: Get a configuration key
       description: ''
-      operationId: get_configuration_key
+      operationId: server.controllers.configuration.get_configuration_key
       parameters:
         - name: key
           in: path
@@ -406,7 +406,7 @@ paths:
         - Configuration
       summary: Edits a configuration value
       description: ''
-      operationId: edit_configuration
+      operationId: server.controllers.configuration.edit_configuration
       consumes:
         - string
       produces:
@@ -436,7 +436,7 @@ paths:
         - Events
       summary: Edit an event note
       description: ''
-      operationId: edit_event_note
+      operationId: server.controllers.events.edit_event_note
       produces:
         - application/json
       parameters:
@@ -464,7 +464,7 @@ paths:
         - Scheduler
       summary: Starts the scheduler
       description: ''
-      operationId: start_scheduler
+      operationId: server.controllers.scheduler.start_scheduler
       produces:
         - application/json
       responses:
@@ -476,7 +476,7 @@ paths:
         - Scheduler
       summary: Stops the scheduler
       description: ''
-      operationId: stop_scheduler
+      operationId: server.controllers.scheduler.stop_scheduler
       produces:
         - application/json
       responses:
@@ -488,7 +488,7 @@ paths:
         - Scheduler
       summary: Pause the scheduler
       description: ''
-      operationId: pause_scheduler
+      operationId: server.controllers.scheduler.pause_scheduler
       produces:
         - application/json
       responses:
@@ -500,7 +500,7 @@ paths:
         - Scheduler
       summary: Resume the scheduler
       description: ''
-      operationId: resume_scheduler
+      operationId: server.controllers.scheduler.resume_scheduler
       produces:
         - application/json
       responses:
@@ -512,7 +512,7 @@ paths:
         - Scheduler
       summary: Resume the scheduler
       description: ''
-      operationId: pause_scheduler_job
+      operationId: server.controllers.scheduler.pause_scheduler_job
       produces:
         - application/json
       parameters:
@@ -530,7 +530,7 @@ paths:
         - Scheduler
       summary: Resume the scheduler
       description: ''
-      operationId: resume_scheduler_job
+      operationId: server.controllers.scheduler.resume_scheduler_job
       produces:
         - application/json
       parameters:
@@ -548,7 +548,7 @@ paths:
         - Scheduler
       summary: Get Scheduler Jobs
       description: ''
-      operationId: get_scheduler_jobs
+      operationId: server.controllers.scheduler.get_scheduler_jobs
       produces:
         - application/json
       responses:
@@ -560,7 +560,7 @@ paths:
         - Widget
       summary: Render a widget
       description: ''
-      operationId: render_widget
+      operationId: server.controllers.widget.render_widget
       produces:
         - application/json
       parameters:
@@ -583,7 +583,7 @@ paths:
         - Widgets
       summary: Render widgets
       description: ''
-      operationId: render_widgets
+      operationId: server.controllers.widgets.render_widgets
       produces:
         - application/json
       parameters:
@@ -611,7 +611,7 @@ paths:
         - Metrics
       summary: get app usage metrics
       description: ''
-      operationId: get_app_metrics
+      operationId: server.controllers.metrics.get_app_metrics
       produces:
         - application/json
       responses:
@@ -623,7 +623,7 @@ paths:
         - Metrics
       summary: Get Workflow Metrics
       description: ''
-      operationId: get_workflow_metrics
+      operationId: server.controllers.metrics.get_workflow_metrics
       produces:
         - application/json
       responses:
@@ -635,7 +635,7 @@ paths:
         - Cases
       summary: Render cases
       description: ''
-      operationId: display_cases
+      operationId: server.controllers.cases.display_cases
       produces:
         - application/json
       responses:
@@ -651,7 +651,7 @@ paths:
         - Cases
       summary: Get a case
       description: ''
-      operationId: get_case
+      operationId: server.controllers.cases.get_case
       parameters:
         - name: case
           in: path
@@ -672,7 +672,7 @@ paths:
         - Cases
       summary: Update a case
       description: ''
-      operationId: edit_case
+      operationId: server.controllers.cases.edit_case
       consumes:
         - application/json
       produces:
@@ -701,7 +701,7 @@ paths:
         - Cases
       summary: Add a case
       description: ''
-      operationId: create_case
+      operationId: server.controllers.cases.create_case
       consumes:
         - application/json
       produces:
@@ -730,7 +730,7 @@ paths:
         - Cases
       summary: Remove a case
       description: ''
-      operationId: delete_case
+      operationId: server.controllers.cases.delete_case
       consumes:
         - application/json
       produces:
@@ -754,7 +754,7 @@ paths:
         - Cases
       summary: Import case data
       description: ''
-      operationId: import_cases
+      operationId: server.controllers.cases.import_cases
       produces:
         - application/json
       parameters:
@@ -773,7 +773,7 @@ paths:
         - Cases
       summary: Export case data
       description: ''
-      operationId: export_cases
+      operationId: server.controllers.cases.export_cases
       produces:
         - application/json
       parameters:
@@ -792,7 +792,7 @@ paths:
         - Subscriptions
       summary: Gets all subscriptions
       description: ''
-      operationId: display_subscriptions
+      operationId: server.controllers.subscriptions.display_subscriptions
       produces:
         - application/json
       responses:
@@ -804,7 +804,7 @@ paths:
         - Cases
       summary: Get case events
       description: ''
-      operationId: get_events
+      operationId: server.controllers.cases.get_events
       parameters:
         - name: case
           in: path
@@ -826,7 +826,7 @@ paths:
         - Subscriptions
       summary: Get a subscription
       description: ''
-      operationId: get_subscription
+      operationId: server.controllers.subscriptions.get_subscription
       parameters:
         - name: case
           in: path
@@ -847,7 +847,7 @@ paths:
         - Subscriptions
       summary: Update a subscription
       description: ''
-      operationId: edit_subscription
+      operationId: server.controllers.subscriptions.edit_subscription
       consumes:
         - application/json
       produces:
@@ -876,7 +876,7 @@ paths:
         - Subscriptions
       summary: Add a subscription
       description: ''
-      operationId: create_subscription
+      operationId: server.controllers.subscriptions.create_subscription
       consumes:
         - application/json
       produces:
@@ -905,7 +905,7 @@ paths:
         - Subscriptions
       summary: Remove a subscription
       description: ''
-      operationId: delete_subscription
+      operationId: server.controllers.subscriptions.delete_subscription
       consumes:
         - application/json
       produces:
@@ -935,7 +935,7 @@ paths:
         - Apps
       summary: Render an App
       description: ''
-      operationId: read_app
+      operationId: server.controllers.apps.read_app
       produces:
         - application/json
       parameters:
@@ -963,7 +963,7 @@ paths:
         - Apps
       summary: Get app actions
       description: ''
-      operationId: list_app_actions
+      operationId: server.controllers.apps.list_app_actions
       produces:
         - application/json
       parameters:
@@ -985,7 +985,7 @@ paths:
         - Apps
       summary: Get app devices
       description: ''
-      operationId: list_app_devices
+      operationId: server.controllers.apps.list_app_devices
       produces:
         - application/json
       parameters:
@@ -1007,7 +1007,7 @@ paths:
         - Apps
       summary: import apps devices
       description: ''
-      operationId: import_devices
+      operationId: server.controllers.apps.import_devices
       produces:
         - application/json
       parameters:
@@ -1029,7 +1029,7 @@ paths:
         - Apps
       summary: export apps devices
       description: ''
-      operationId: export_devices
+      operationId: server.controllers.apps.export_devices
       produces:
         - application/json
       parameters:
@@ -1051,7 +1051,7 @@ paths:
         - Devices
       summary: Get a device
       description: ''
-      operationId: get_device
+      operationId: server.controllers.devices.get_device
       parameters:
         - name: app_name
           in: path
@@ -1077,7 +1077,7 @@ paths:
         - Devices
       summary: Update a device
       description: ''
-      operationId: edit_device
+      operationId: server.controllers.devices.edit_device
       consumes:
         - application/json
       produces:
@@ -1111,7 +1111,7 @@ paths:
         - Devices
       summary: Add a device
       description: ''
-      operationId: create_device
+      operationId: server.controllers.devices.create_device
       consumes:
         - application/json
       produces:
@@ -1145,7 +1145,7 @@ paths:
         - Devices
       summary: Remove a device
       description: ''
-      operationId: delete_device
+      operationId: server.controllers.devices.delete_device
       consumes:
         - application/json
       produces:
@@ -1174,7 +1174,7 @@ paths:
         - Triggers
       summary: Render triggers
       description: ''
-      operationId: display_triggers
+      operationId: server.controllers.triggers.display_triggers
       produces:
         - application/json
       responses:
@@ -1190,7 +1190,7 @@ paths:
         - Triggers
       summary: Trigger Listener
       description: ''
-      operationId: listener
+      operationId: server.controllers.triggers.listener
       produces:
         - application/json
       responses:
@@ -1202,7 +1202,7 @@ paths:
         - Triggers
       summary: Get a trigger
       description: ''
-      operationId: get_trigger
+      operationId: server.controllers.triggers.get_trigger
       parameters:
         - name: trigger
           in: path
@@ -1223,7 +1223,7 @@ paths:
         - Triggers
       summary: Update a trigger
       description: ''
-      operationId: edit_trigger
+      operationId: server.controllers.triggers.edit_trigger
       consumes:
         - application/json
       produces:
@@ -1252,7 +1252,7 @@ paths:
         - Triggers
       summary: Add a trigger
       description: ''
-      operationId: create_trigger
+      operationId: server.controllers.triggers.create_trigger
       consumes:
         - application/json
       produces:
@@ -1281,7 +1281,7 @@ paths:
         - Triggers
       summary: Remove a trigger
       description: ''
-      operationId: delete_trigger
+      operationId: server.controllers.triggers.delete_trigger
       consumes:
         - application/json
       produces:
@@ -1305,7 +1305,7 @@ paths:
         - Playbooks
       summary: Displays all playbooks
       description: ''
-      operationId: list_available_playbooks
+      operationId: server.controllers.playbooks.list_available_playbooks
       produces:
         - application/json
       responses:
@@ -1317,7 +1317,7 @@ paths:
         - Playbooks
       summary: Get a playbook
       description: ''
-      operationId: get_playbook
+      operationId: server.controllers.playbooks.get_playbook
       parameters:
         - name: playbook_name
           in: path
@@ -1344,7 +1344,7 @@ paths:
         - Playbooks
       summary: Update a playbook
       description: ''
-      operationId: edit_playbook
+      operationId: server.controllers.playbooks.edit_playbook
       consumes:
         - application/json
       produces:
@@ -1373,7 +1373,7 @@ paths:
         - Playbooks
       summary: Add a playbook
       description: ''
-      operationId: create_playbook
+      operationId: server.controllers.playbooks.create_playbook
       consumes:
         - application/json
       produces:
@@ -1402,7 +1402,7 @@ paths:
         - Playbooks
       summary: Remove a playbook
       description: ''
-      operationId: delete_playbook
+      operationId: server.controllers.playbooks.delete_playbook
       consumes:
         - application/json
       produces:
@@ -1426,7 +1426,7 @@ paths:
         - Playbooks
       summary: copy a playbook
       description: ''
-      operationId: copy_playbook
+      operationId: server.controllers.playbooks.copy_playbook
       parameters:
         - name: playbook_name
           in: path
@@ -1454,7 +1454,7 @@ paths:
         - Playbooks
       summary: display all workflows in playbook
       description: ''
-      operationId: display_workflows_for_playbook
+      operationId: server.controllers.playbooks.display_workflows_for_playbook
       parameters:
         - name: playbook_name
           in: path
@@ -1476,7 +1476,7 @@ paths:
         - Workflows
       summary: Get a workflow
       description: ''
-      operationId: get_workflow
+      operationId: server.controllers.workflows.get_workflow
       parameters:
         - name: playbook_name
           in: path
@@ -1502,7 +1502,7 @@ paths:
         - Workflows
       summary: Update a workflow
       description: ''
-      operationId: edit_workflow
+      operationId: server.controllers.workflows.edit_workflow
       consumes:
         - application/json
       produces:
@@ -1536,7 +1536,7 @@ paths:
         - Workflows
       summary: Add a workflow
       description: ''
-      operationId: create_workflow
+      operationId: server.controllers.workflows.create_workflow
       consumes:
         - application/json
       produces:
@@ -1570,7 +1570,7 @@ paths:
         - Workflows
       summary: Remove a workflow
       description: ''
-      operationId: delete_workflow
+      operationId: server.controllers.workflows.delete_workflow
       consumes:
         - application/json
       produces:
@@ -1599,7 +1599,7 @@ paths:
         - Workflows
       summary: Get a workflow's risk value
       description: ''
-      operationId: get_workflow_risk
+      operationId: server.controllers.workflows.get_workflow_risk
       parameters:
         - name: playbook_name
           in: path
@@ -1626,7 +1626,7 @@ paths:
         - Workflows
       summary: Copy a workflow
       description: ''
-      operationId: copy_workflow
+      operationId: server.controllers.workflows.copy_workflow
       parameters:
         - name: playbook_name
           in: path
@@ -1659,7 +1659,7 @@ paths:
         - Workflows
       summary: Execute a workflow
       description: ''
-      operationId: execute_workflow
+      operationId: server.controllers.workflows.execute_workflow
       parameters:
         - name: playbook_name
           in: path
@@ -1686,7 +1686,7 @@ paths:
         - Workflows
       summary: Pause a workflow
       description: ''
-      operationId: pause_workflow
+      operationId: server.controllers.workflows.pause_workflow
       parameters:
         - name: playbook_name
           in: path
@@ -1713,7 +1713,7 @@ paths:
         - Workflows
       summary: Resume a workflow
       description: ''
-      operationId: resume_workflow
+      operationId: server.controllers.workflows.resume_workflow
       parameters:
         - name: playbook_name
           in: path
@@ -1746,7 +1746,7 @@ paths:
         - Workflows
       summary: Save a workflow
       description: ''
-      operationId: save_workflow
+      operationId: server.controllers.workflows.save_workflow
       parameters:
         - name: playbook_name
           in: path
