@@ -26,7 +26,8 @@ class TestWorkflowServer(ServerTestCase):
                                                              'eDT': '2016-3-15 12:00:00',
                                                              'sDT': '2016-1-1 12:00:00'},
                                                     'autorun': u'false',
-                                                    'type': u'cron'}}}}
+                                                    'type': u'cron'}},
+                          'start': 'start'}}
         self.hello_world_json = \
             {'steps': [{'group': 'nodes',
                         'position': {},
@@ -56,7 +57,8 @@ class TestWorkflowServer(ServerTestCase):
                          'children': {},
                          'scheduler': {'args': {'hours': '*', 'minutes': '*/0.1', 'day': '*', 'month': '11-12'},
                                        'type': 'cron',
-                                       'autorun': 'false'}}}
+                                       'autorun': 'false'}},
+             'start': 'start'}
 
     def tearDown(self):
         flask_server.running_context.controller.workflows = {}
@@ -89,7 +91,8 @@ class TestWorkflowServer(ServerTestCase):
         options_data = workflow.options.as_json()
         expected_response = {'status': 'success',
                              'steps': steps_data,
-                             'options': options_data}
+                             'options': options_data,
+                             'start': 'start'}
         response = self.get_with_status_check('/playbooks/multiactionWorkflowTest/workflows/multiactionWorkflow',
                                               'success',
                                               headers=self.headers)
@@ -309,7 +312,8 @@ class TestWorkflowServer(ServerTestCase):
                                                                          'day': '*',
                                                                          'month': '11-12'},
                                                                 'type': 'cron',
-                                                                'autorun': 'false'}}}}
+                                                                'autorun': 'false'}},
+                                      'start': 'start'}}
 
         self.assertDictEqual(response, expected_json)
 
@@ -344,7 +348,8 @@ class TestWorkflowServer(ServerTestCase):
                                                                          'day': '*',
                                                                          'month': '11-12'},
                                                                 'type': 'cron',
-                                                                'autorun': 'false'}}}}
+                                                                'autorun': 'false'}},
+                                      'start': 'start'}}
 
         self.assertDictEqual(response, expected_json)
 
@@ -372,7 +377,8 @@ class TestWorkflowServer(ServerTestCase):
                                                                          'arg2': 'val2',
                                                                          'agr3': 'val3'},
                                                                 'type': 'test_scheduler',
-                                                                'autorun': 'true'}}}}
+                                                                'autorun': 'true'}},
+                                      'start': 'start'}}
 
         self.assertDictEqual(response, expected_json)
 
@@ -405,7 +411,8 @@ class TestWorkflowServer(ServerTestCase):
                                                                          'arg2': 'val2',
                                                                          'agr3': 'val3'},
                                                                 'type': 'test_scheduler',
-                                                                'autorun': 'true'}}}}
+                                                                'autorun': 'true'}},
+                                      'start': 'start'}}
         self.assertDictEqual(response, expected_json)
 
         options = flask_server.running_context.controller.get_workflow('test', workflow_name).options
@@ -477,6 +484,33 @@ class TestWorkflowServer(ServerTestCase):
         for step_name, loaded_step in loaded_workflow.steps.items():
             self.assertIn(step_name, resulting_workflow.steps.keys())
             self.assertDictEqual(loaded_step.as_json(), resulting_workflow.steps[step_name].as_json())
+
+    def test_save_workflow_new_start_step(self):
+        workflow_name = list(flask_server.running_context.controller.workflows.keys())[0].workflow
+        initial_workflow = flask_server.running_context.controller.get_workflow('test', workflow_name)
+        initial_steps = dict(initial_workflow.steps)
+        initial_workflow_cytoscape = list(initial_workflow.get_cytoscape_data())
+        added_step_cytoscape = {'data': {'id': 'new_id',
+                                         'parameters': {'errors': [],
+                                                        'name': 'new_id',
+                                                        'app': 'new_app',
+                                                        'next': [],
+                                                        'device': 'new_device',
+                                                        'action': 'new_action',
+                                                        'input': {}},
+                                         },
+                                'group': 'nodes',
+                                'position': {'x': '5', 'y': '3'}}
+        initial_workflow_cytoscape.insert(0, added_step_cytoscape)
+        data = {"cytoscape": json.dumps(initial_workflow_cytoscape),
+                "start": "new_start"}
+        self.post_with_status_check('/playbooks/test/workflows/{0}/save'.format(workflow_name), 'success',
+                                    data=json.dumps(data),
+                                    headers=self.headers,
+                                    content_type='application/json')
+
+        resulting_workflow = flask_server.running_context.controller.get_workflow('test', workflow_name)
+        self.assertEqual(resulting_workflow.start_step, "new_start")
 
     def test_save_workflow_invalid_name(self):
         self.post_with_status_check('/playbooks/test/workflows/junkworkflowname/save', 'error: workflow name is not valid',
